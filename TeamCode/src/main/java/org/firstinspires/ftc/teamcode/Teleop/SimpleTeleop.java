@@ -41,10 +41,9 @@ public class SimpleTeleop extends LinearOpMode {
     private int ArmLatchInd= 0;
     private int ArmDepositInd=0;
     private int ArmIntakeInd=0;
-    private int SliderDepositInd=0;
+    private int SliderExtendInd=0;
     private int SliderRetractInd=0;
     private double SliderCurLen;
-    private int SliderReset=0;
     private double ArmCurPosDeg;
     private int GripperRollInInd=0;
     private int setmode=0;
@@ -167,14 +166,18 @@ public class SimpleTeleop extends LinearOpMode {
                 }
             }
 
+            // gamepad1.x: Reset Arm motor encode when the arm is fully down:
+            // this is to compensate the build up error.
+            if (gamepad1.x){
+                armControl.ArmEncoderReset();
+            }
+
+
             // - - - Slider motor control - - - //
 
-            // Gamepad B button to: Reset slide encoder: slide must be fully retracted for this
+            // Gamepad1 B button to: Reset slide encoder: slide must be fully retracted
             if (gamepad1.b) {
-                if (SliderReset==0){
                     sliderControl.SliderEncoderReset();
-                    SliderReset=1;
-                }
             }
 
             // Controlling the slider motor using game pad2's left and right
@@ -183,7 +186,7 @@ public class SimpleTeleop extends LinearOpMode {
                 // Retracting the slider through driver control
                 // Reset the run to position indicators
 
-                SliderDepositInd=0;
+                SliderExtendInd=0;
                 SliderRetractInd=0;
                 sliderControl.SliderRunModEncoder();
                 sliderControl.setSliderPower(-gamepad2.left_trigger * 0.6);
@@ -192,32 +195,34 @@ public class SimpleTeleop extends LinearOpMode {
 
                 // extending the slider through driver control
                 // Reset the run to position indicators
-                SliderDepositInd = 0;
+                SliderExtendInd = 0;
                 SliderRetractInd = 0;
                 sliderControl.SliderRunModEncoder();
                 SliderCurLen = sliderControl.getSliderLen();
                 sliderControl.setSliderPower(gamepad2.right_trigger * 0.6);
             } else {
-                if (SliderDepositInd==0 && SliderRetractInd==0) {
+                if (SliderExtendInd==0 && SliderRetractInd==0) {
                     // zero power plus run mode reset
                     sliderControl.SliderRunModReset();
                 }
             }
-            // dpad_up to fully extend the slide to drop off sample
+            // dpad_up to extend the slide 2 In
             if (gamepad2.dpad_up) {
-                SliderDepositInd = 1;
+                SliderExtendInd = 1;
                 SliderRetractInd = 0;
+                SliderCurLen=sliderControl.getSliderLen();
             }
-            if(SliderDepositInd==1) {
-                sliderControl.setSliderDeposit();
+            if(SliderExtendInd==1) {
+                sliderControl.setSliderLenIncrement(SliderCurLen,2);
             }
-            // dpad_down to fully retract the slide
+            // dpad_down to retract the slide 2 In
             if (gamepad2.dpad_down) {
-                SliderDepositInd = 0;
+                SliderExtendInd = 0;
                 SliderRetractInd = 1;
+                SliderCurLen=sliderControl.getSliderLen();
             }
             if(SliderRetractInd==1) {
-                sliderControl.setDesSliderLen(0);
+                sliderControl.setSliderLenIncrement(SliderCurLen,-2);
             }
 
             // - - - Gripper control - - - //

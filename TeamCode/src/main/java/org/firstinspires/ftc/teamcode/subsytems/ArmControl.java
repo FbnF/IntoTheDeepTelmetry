@@ -7,11 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class ArmControl {
 
-
     // Arm control variables
     private DcMotorEx ArmMotor;
     private double initialPosDeg=-20;
-    private double DepositAngle=74;
+    private double DepositAngle=79;
     private double IntakeAngle= -10;
 
     private double RuntoPositionPower=0.6;
@@ -94,4 +93,8 @@ public class ArmControl {
         ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    // Wrapper method to reset the SliderMotor encoder
+    public void ArmEncoderReset(){
+        ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 }
