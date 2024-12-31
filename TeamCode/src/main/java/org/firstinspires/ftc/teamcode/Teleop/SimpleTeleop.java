@@ -51,7 +51,7 @@ public class SimpleTeleop extends LinearOpMode {
     private PIDFCoefficients Default_Pid;
 
 
-    //FtcDashboard dashboard;
+    FtcDashboard dashboard;
     // - - - Constants + Variables - - - //
     //- - - - - - - - - - - - - - Initialization - - - - - - - - - - - -
 
@@ -74,8 +74,8 @@ public class SimpleTeleop extends LinearOpMode {
         
 
         // - - - Set up dashboard telemetry - - - //
-        //dashboard = FtcDashboard.getInstance();
-        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
 
 
