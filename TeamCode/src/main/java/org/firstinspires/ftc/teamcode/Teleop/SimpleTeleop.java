@@ -83,6 +83,8 @@ public class SimpleTeleop extends LinearOpMode {
         // - - - Initialize gripper to starting position - - - //
         gripper = new Gripper(this);
         gripper.init(hardwareMap);
+        // Obtain the default calibrated gripper close position to assign it to the
+        // Teleop Close Position since the gripper does get loose after several usage. 
         GripperTeleOpClosePos= gripper.getGripperClosePos();
         //Gripper open state
         //gripper.setGripperOpen();
@@ -274,7 +276,6 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad2.dpad_right) {
                 gripper.setAnglerSide();
             }
-
 
             // - - - Telemetry Updates - - - //
             // Sending important data to telemetry to monitor
