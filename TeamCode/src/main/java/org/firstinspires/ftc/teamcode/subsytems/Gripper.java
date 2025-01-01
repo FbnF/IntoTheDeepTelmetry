@@ -78,12 +78,22 @@ public class Gripper {
 
     // Gripper open function
     public void setGripperOpen() {
-        //Gripper open state
+        //Gripper Open state
         setGripperPosition(GripperOpen);
+    }
+    // Return Gripper close position function
+    public double getGripperClosePos() {
+        //Gripper close position
+        return GripperClose;
+    }
+    // Return Gripper current position function
+    public double getGripperCurPos() {
+        //Gripper close position
+        return gripper.getPosition();
     }
     // Gripper close function
     public void setGripperClosed() {
-        //Gripper open state
+        //Gripper Close state
         setGripperPosition(GripperClose);
     }
 

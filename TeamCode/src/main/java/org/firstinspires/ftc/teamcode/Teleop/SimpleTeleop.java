@@ -46,8 +46,10 @@ public class SimpleTeleop extends LinearOpMode {
     private double SliderCurLen;
     private double ArmCurPosDeg;
     private int GripperRollInInd=0;
-    private int setmode=0;
+    private double GripperTeleOpClosePos;
     private PIDFCoefficients Default_Pid;
+    private int TighterGripAdjustInd=0;
+    private int TighterGripAdjustIndPrev=0;
 
 
     FtcDashboard dashboard;
@@ -81,6 +83,7 @@ public class SimpleTeleop extends LinearOpMode {
         // - - - Initialize gripper to starting position - - - //
         gripper = new Gripper(this);
         gripper.init(hardwareMap);
+        GripperTeleOpClosePos= gripper.getGripperClosePos();
         //Gripper open state
         //gripper.setGripperOpen();
         //Gripper holder to the side
@@ -232,7 +235,7 @@ public class SimpleTeleop extends LinearOpMode {
             }
             // gamepad2 x button for close the gripper
             if (gamepad2.x){
-                gripper.setGripperClosed();
+                gripper.setGripperPosition(GripperTeleOpClosePos);
             }
             // - - - Gripper Holder control - - - //
             // gamepad2 y button for setting gripper holder forward
@@ -242,6 +245,24 @@ public class SimpleTeleop extends LinearOpMode {
             // gamepad2 right bumper to turn the Gripper Holder to the side
             if (gamepad2.right_bumper) {
                 gripper.setGripperHolderParallel();
+            }
+            // gamepad1 Y to set the Gripper closer position to make the grip tighter,
+            // which is to compensate the fact that the gripper is not robust enough
+            // and it will lose its grip after several usage.
+            if (gamepad1.y ) {
+                // Increment TighterGripAdjustInd when Y is pushed. Actual behaviour
+                // is that even a simple push will produce a signal being true for
+                // several loops.
+                TighterGripAdjustInd = TighterGripAdjustInd +1;
+            } else {
+                // Reset TighterGripAdjustInd when Y button is not pushed, this enables
+                // proper function of next Y button push
+                TighterGripAdjustInd=0;
+            }
+            // Only perform one tighter adjustment with one Y button push
+            if (TighterGripAdjustInd==1){
+                GripperTeleOpClosePos=GripperTeleOpClosePos-0.02;
+                gripper.setGripperPosition(GripperTeleOpClosePos);
             }
 
             // angler control using gamepad2 dpad left and right (Hat)
@@ -265,6 +286,8 @@ public class SimpleTeleop extends LinearOpMode {
             telemetry.addData("TwoStage Position", sliderControl.getSliderLen());
             telemetry.addData("Gripper Roll In Indicator", GripperRollInInd);
             telemetry.addData("Active Speed Factor: ", speedFactor);
+            telemetry.addData("Gripper tght request: ", TighterGripAdjustInd);
+            telemetry.addData("Current  Gripper Position: ", gripper.getGripperCurPos());
             telemetry.update();
 
         }
