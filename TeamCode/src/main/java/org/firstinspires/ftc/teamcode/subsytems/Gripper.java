@@ -31,10 +31,10 @@ public class Gripper {
 
     //GripperOpen: The Gripper in the open position to prepare for pick up
     // sample/specimen for gripper servo
-    private double GripperOpen=0.93;
+    private double GripperOpen=0.94;
     //GripperOpen: The Gripper in the close position for pick up sample/specimen
     // for gripper servo
-    private double GripperClose=0.78;
+    private double GripperClose=0.74;
 
     //AnglerInit: The initial position for the angler servo
     private double AnglerInit=0.0;
@@ -86,12 +86,18 @@ public class Gripper {
         //Gripper close position
         return GripperClose;
     }
+    // Return Gripper open position function
+    public double getGripperOpenPos() {
+        //Gripper open position
+        return GripperOpen;
+    }
     // Return Gripper current position function
     public double getGripperCurPos() {
         //Gripper close position
         return gripper.getPosition();
     }
-    // Gripper close function
+
+    // Gripper open position function
     public void setGripperClosed() {
         //Gripper Close state
         setGripperPosition(GripperClose);
