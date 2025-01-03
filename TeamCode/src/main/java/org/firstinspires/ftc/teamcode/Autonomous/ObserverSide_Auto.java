@@ -94,15 +94,15 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(1.7, () -> sliderControl.setDesSliderLen(2))
                 .waitSeconds(2)
 
-                //Step 5: Turn right 135 degree to drop off Sample 1
+                //Step 5: Goto SampleDropoffPos to drop off Sample 1
                 .lineToLinearHeading(SampleDropoffPos)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> sliderControl.setDesSliderLen(0))
                 .waitSeconds(1)
 
-                // Step 6: Go to the wait position for picking up Specimen 2
+                // Step 6: Go to the wait position Specimen2WaitPos for picking up Specimen 2
                 .lineToLinearHeading(Specimen2WaitPos)
-                .waitSeconds(2)
+                .waitSeconds(2.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(6))
                 .UNSTABLE_addTemporalMarkerOffset(0.6, () -> gripper.setGripperClosed())
                 .waitSeconds(1.5)
@@ -124,17 +124,18 @@ public class ObserverSide_Auto extends LinearOpMode {
 
                 //.UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(6))
                 //.lineToLinearHeading(SpecimenPickupPos)
-                // Step 9: Turn left 135 degrees and raise the Arm to prepare for
+
+                // Step 7: Turn left 135 degrees and raise the Arm to prepare for
                 // Specimen 2 drop off attempt
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(74);})
                 .turn(Math.toRadians(135))
 
-                // Step 10: Specimen 2 drop off attempt
+                // Step 8: Specimen 2 drop off attempt
                 .lineToLinearHeading(SpecimenDropoffPos2)
                 .forward(2)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {armControl.setDesArmPosDeg(40);})
                 .waitSeconds(0.2)
-                // Step 11: Move backward and open the Gripper to place and release the Specimen.
+                // Step 9: Move backward and open the Gripper to place and release the Specimen.
                 // At the same time, drop the arm all the way down and set its power to zero
                 // afterwards
                 .back(7.5)

@@ -51,7 +51,7 @@ public class SimpleTeleop extends LinearOpMode {
     private int TighterGripAdjustInd=0;
     private int LooserGripAdjustInd=0;
     private double GripperTeleOpOpenPos;
-    // Slider adjust constant for dpad up and down pushaaff
+    // Slider adjust constant for dpad up and down pushes: set to 0.5 inch
     private double SliderAdjust=0.5;
 
 
