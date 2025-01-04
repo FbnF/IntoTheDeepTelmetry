@@ -88,9 +88,9 @@ public class BucketSide_Auto extends LinearOpMode {
 
                 // Step 5: Move to Sample 1 and extend the slide to pick up the Sample 1
                 .lineToLinearHeading(SamplePickUpPos1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(6))
-                .UNSTABLE_addTemporalMarkerOffset(1.5, () -> gripper.setGripperClosed())
-                .waitSeconds(1.8)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(5.5))
+                .UNSTABLE_addTemporalMarkerOffset(1.0, () -> gripper.setGripperClosed())
+                .waitSeconds(1.2)
 
                 // Step 6: Retract the slide and set Arm to Deposit angle
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(0))
@@ -105,23 +105,27 @@ public class BucketSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SampleDropoffPos1)
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setGripperHolderParallel())
                 .waitSeconds(0.8)
-                .forward(2)
+                .forward(5)
                 // Lower the Arm angle and turn the Gripper perpendicular once above the bucket
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(74))
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(82))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperHolderPerpendicular())
                 // Open the gripper to drop the sample and raise the Arm, then close the gripper
                 // and retract the slide
                 .UNSTABLE_addTemporalMarkerOffset(0.4, () -> gripper.setGripperOpen())
-                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> armControl.setArmDeposit())
-                .UNSTABLE_addTemporalMarkerOffset(1.0, () -> gripper.setGripperClosed())
-                .UNSTABLE_addTemporalMarkerOffset(1.2, () -> {sliderControl.setDesSliderLen(8);})
-                .waitSeconds(1.3)
+                //.UNSTABLE_addTemporalMarkerOffset(0.8, () -> armControl.setArmDeposit())
+                //.UNSTABLE_addTemporalMarkerOffset(1.0, () -> gripper.setGripperClosed())
+                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> gripper.setGripperHolderParallel())
+                .UNSTABLE_addTemporalMarkerOffset(0.8, () -> gripper.setGripperClosed())
+                .waitSeconds(1)
+                .back(5)
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(7);})
+                .waitSeconds(0.8)
 
                 // Step 8: Go Back to the position PushPos1 for level 1 ascent
                 .lineToLinearHeading(PushPos1)
                 .turn(-Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(28);})
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {sliderControl.setDesSliderLen(10);})
+                //.UNSTABLE_addTemporalMarkerOffset(0.0, () -> {sliderControl.setDesSliderLen(8);})
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setArmPower(-0.4);})
                 .waitSeconds(2)

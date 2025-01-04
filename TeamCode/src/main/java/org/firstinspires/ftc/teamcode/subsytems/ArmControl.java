@@ -10,7 +10,7 @@ public class ArmControl {
     // Arm control variables
     private DcMotorEx ArmMotor;
     private double initialPosDeg=-20;
-    private double DepositAngle=79;
+    private double DepositAngle=89;
     private double IntakeAngle= -10;
 
     private double RuntoPositionPower=0.6;
