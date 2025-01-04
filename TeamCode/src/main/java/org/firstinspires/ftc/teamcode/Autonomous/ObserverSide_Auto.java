@@ -32,7 +32,7 @@ public class ObserverSide_Auto extends LinearOpMode {
         // - - - Setting up Arm motors - - - //
         armControl = new ArmControl(this);
         armControl.init(hardwareMap);
-        armControl.setDesArmPosDeg(-5);
+        //armControl.setDesArmPosDeg(-5);
 
         // - - - Setting up Slider motors - - - //
         sliderControl = new SliderControl(this);
@@ -66,8 +66,8 @@ public class ObserverSide_Auto extends LinearOpMode {
 
                 // Step 1: Set the gripper and arm in the right position for Specimen drop off
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(74);})
-                .UNSTABLE_addTemporalMarkerOffset(0.2,()->{gripper.setAnglerForward();})
-                .UNSTABLE_addTemporalMarkerOffset(0.2,()->{gripper.setGripperHolderPerpendicular();})
+                .UNSTABLE_addTemporalMarkerOffset(0.3,()->{gripper.setAnglerForward();})
+                .UNSTABLE_addTemporalMarkerOffset(0.3,()->{gripper.setGripperHolderPerpendicular();})
                 .waitSeconds(0.5)
 
                 // Step 2: Move the robot to the Specimen drop off position and move forward,
