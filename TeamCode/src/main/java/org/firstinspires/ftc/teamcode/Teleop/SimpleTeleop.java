@@ -41,8 +41,8 @@ public class SimpleTeleop extends LinearOpMode {
     private int ArmLatchInd= 0;
     private int ArmDepositInd=0;
     private int ArmIntakeInd=0;
+    private int ArmLowerInd=0;
     private int SliderExtendInd=0;
-    private int SliderRetractInd=0;
     private double SliderCurLen;
     private double ArmCurPosDeg;
     private int GripperRollInInd=0;
@@ -53,6 +53,8 @@ public class SimpleTeleop extends LinearOpMode {
     private double GripperTeleOpOpenPos;
     // Slider adjust constant for dpad up and down pushes: set to 0.5 inch
     private double SliderAdjust=0.5;
+    // Arm lower angle with gamepad 2 dpad_down
+    private double ArmLowerAngle=7;
 
 
     FtcDashboard dashboard;
@@ -130,6 +132,7 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmIntakeInd=0;
                 ArmDepositInd=0;
                 ArmHangInd=0;
+                ArmLowerInd =0;
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
 
@@ -144,21 +147,35 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
                 ArmHangInd=0;
+                ArmLowerInd =0;
             }
             if(ArmDepositInd==1){
                 armControl.setArmDeposit();
+            }
+            // dpad_down to lower the arm by ArmLowerAngle degree of angle
+            if (gamepad2.dpad_down) {
+                ArmLowerInd = 1;
+                ArmDepositInd=0;
+                ArmIntakeInd=0;
+                ArmLatchInd=0;
+                ArmHangInd=0;
+                ArmCurPosDeg= armControl.getActArmPosDeg();
+            }
+            if(ArmLowerInd==1) {
+                armControl.setDesArmPosDeg(ArmCurPosDeg-ArmLowerAngle);
             }
             // Gamepad 1 a button: set arm power to 0.7 to hang the robot
             if (gamepad1.a) {
                 ArmDepositInd=0;
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
+                ArmLowerInd=0;
                 ArmHangInd=1;
+
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
             if(ArmHangInd==1){
                 armControl.setArmPower(-0.6);
-
             }
             // Allow user to control the arm position once it is pushed more than 0.1 in magnitude
             if (Math.abs(gamepad2.right_stick_y) > 0.2 ) {
@@ -167,10 +184,12 @@ public class SimpleTeleop extends LinearOpMode {
                     ArmLatchInd=0;
                     ArmDepositInd=0;
                     ArmHangInd=0;
+                    ArmLowerInd=0;
                     armControl.ArmRunModEncoder();
                     armControl.setArmPower(-1.0 * gamepad2.right_stick_y * 0.8);
                 } else {
-                if( ArmIntakeInd==0 && ArmLatchInd==0 && ArmDepositInd==0 && ArmHangInd==0) {
+                if( ArmIntakeInd==0 && ArmLatchInd==0 && ArmDepositInd==0
+                        && ArmHangInd==0 && ArmLowerInd==0) {
                     // zero power plus run mode reset
                     armControl.ArmRunModReset();
                 }
@@ -181,6 +200,7 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad1.x){
                 armControl.ArmEncoderReset();
             }
+
 
 
             // - - - Slider motor control - - - //
@@ -195,9 +215,7 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad2.left_trigger > 0.2) {
                 // Retracting the slider through driver control
                 // Reset the run to position indicators
-
                 SliderExtendInd=0;
-                SliderRetractInd=0;
                 sliderControl.SliderRunModEncoder();
                 sliderControl.setSliderPower(-gamepad2.left_trigger * 0.6);
 
@@ -206,34 +224,24 @@ public class SimpleTeleop extends LinearOpMode {
                 // extending the slider through driver control
                 // Reset the run to position indicators
                 SliderExtendInd = 0;
-                SliderRetractInd = 0;
                 sliderControl.SliderRunModEncoder();
                 SliderCurLen = sliderControl.getSliderLen();
                 sliderControl.setSliderPower(gamepad2.right_trigger * 0.6);
             } else {
-                if (SliderExtendInd==0 && SliderRetractInd==0) {
+                if ( SliderExtendInd==0) {
                     // zero power plus run mode reset
                     sliderControl.SliderRunModReset();
                 }
             }
-            // dpad_up to extend the slide 2 In
+            // dpad_up to extend the slide
             if (gamepad2.dpad_up) {
-                SliderExtendInd = 1;
-                SliderRetractInd = 0;
+                SliderExtendInd= 1;
                 SliderCurLen=sliderControl.getSliderLen();
             }
             if(SliderExtendInd==1) {
                 sliderControl.setSliderLenIncrement(SliderCurLen,SliderAdjust);
             }
-            // dpad_down to retract the slide 2 In
-            if (gamepad2.dpad_down) {
-                SliderExtendInd = 0;
-                SliderRetractInd = 1;
-                SliderCurLen=sliderControl.getSliderLen();
-            }
-            if(SliderRetractInd==1) {
-                sliderControl.setSliderLenIncrement(SliderCurLen,-SliderAdjust);
-            }
+            
 
             // - - - Gripper control - - - //
             // gamepad2 b button for open the gripper
