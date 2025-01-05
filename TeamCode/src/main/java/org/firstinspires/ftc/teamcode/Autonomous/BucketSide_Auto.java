@@ -123,7 +123,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Step 8: Go Back to the position PushPos1 for level 1 ascent
                 .lineToLinearHeading(PushPos1)
                 .turn(-Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(28);})
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(25);})
                 //.UNSTABLE_addTemporalMarkerOffset(0.0, () -> {sliderControl.setDesSliderLen(8);})
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setArmPower(-0.4);})

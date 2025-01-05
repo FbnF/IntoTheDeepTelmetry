@@ -42,7 +42,7 @@ public class SimpleTeleop extends LinearOpMode {
     private int ArmDepositInd=0;
     private int ArmIntakeInd=0;
     private int ArmLowerInd=0;
-    private int SliderExtendInd=0;
+    private int ArmFixAngleInd=0;
     private double SliderCurLen;
     private double ArmCurPosDeg;
     private int GripperRollInInd=0;
@@ -73,6 +73,7 @@ public class SimpleTeleop extends LinearOpMode {
         // - - - Setting up Arm motors - - - //
         armControl = new ArmControl(this);
         armControl.init(hardwareMap);
+        armControl.setHangServoUp();
 
         // - - - Setting up Slider motors - - - //
         sliderControl = new SliderControl(this);
@@ -116,6 +117,22 @@ public class SimpleTeleop extends LinearOpMode {
             if(gamepad1.y){
                 speedFactor = 0.7;
             }
+
+            // Gamepad1 A button to set to the super slow Mode
+            if (gamepad1.a) {
+                speedFactor = 0.6;
+            }
+
+            // Gamepad1 B button to set to the super slow Mode
+            if (gamepad1.b) {
+                speedFactor = 0.2;
+            }
+
+            // Gamepad1 dpad down to set the arm blocking down
+            if (gamepad1.dpad_down) {
+               armControl.setHangServoSide();
+            }
+
             drive.setWeightedDrivePower(new Pose2d(
                     -gamepad1.right_stick_y * speedFactor, // Forward/Backward Movement
                     -gamepad1.left_stick_x * speedFactor, // Strafing Left/right
@@ -133,6 +150,7 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmDepositInd=0;
                 ArmHangInd=0;
                 ArmLowerInd =0;
+                ArmFixAngleInd=0;
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
 
@@ -148,9 +166,23 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmLatchInd=0;
                 ArmHangInd=0;
                 ArmLowerInd =0;
+                ArmFixAngleInd=0;
             }
             if(ArmDepositInd==1){
                 armControl.setArmDeposit();
+            }
+            // dpad_up to set to desired angle for in/out of the submersible zone
+            if (gamepad2.dpad_up) {
+                ArmFixAngleInd= 1;
+                ArmDepositInd=0;
+                ArmIntakeInd=0;
+                ArmLatchInd=0;
+                ArmHangInd=0;
+                ArmLowerInd =0;
+
+            }
+            if(ArmFixAngleInd==1) {
+                armControl.setDesArmPosDeg(-7);
             }
             // dpad_down to lower the arm by ArmLowerAngle degree of angle
             if (gamepad2.dpad_down) {
@@ -159,11 +191,13 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
                 ArmHangInd=0;
+                ArmFixAngleInd=0;
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
             if(ArmLowerInd==1) {
                 armControl.setDesArmPosDeg(ArmCurPosDeg-ArmLowerAngle);
             }
+            /*
             // Gamepad 1 a button: set arm power to 0.7 to hang the robot
             if (gamepad1.a) {
                 ArmDepositInd=0;
@@ -171,12 +205,15 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmLatchInd=0;
                 ArmLowerInd=0;
                 ArmHangInd=1;
+                ArmFixAngleInd=0;
 
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
             if(ArmHangInd==1){
                 armControl.setArmPower(-0.6);
             }
+
+             */
             // Allow user to control the arm position once it is pushed more than 0.1 in magnitude
             if (Math.abs(gamepad2.right_stick_y) > 0.2 ) {
                     // Reset all the position indicators
@@ -185,11 +222,12 @@ public class SimpleTeleop extends LinearOpMode {
                     ArmDepositInd=0;
                     ArmHangInd=0;
                     ArmLowerInd=0;
+                    ArmFixAngleInd=0;
                     armControl.ArmRunModEncoder();
                     armControl.setArmPower(-1.0 * gamepad2.right_stick_y * 0.8);
                 } else {
                 if( ArmIntakeInd==0 && ArmLatchInd==0 && ArmDepositInd==0
-                        && ArmHangInd==0 && ArmLowerInd==0) {
+                        && ArmHangInd==0 && ArmLowerInd==0 && ArmFixAngleInd==0) {
                     // zero power plus run mode reset
                     armControl.ArmRunModReset();
                 }
@@ -205,17 +243,9 @@ public class SimpleTeleop extends LinearOpMode {
 
             // - - - Slider motor control - - - //
 
-            // Gamepad1 B button to: Reset slide encoder: slide must be fully retracted
-            if (gamepad1.b) {
-                    sliderControl.SliderEncoderReset();
-            }
-
             // Controlling the slider motor using game pad2's left and right
             // triggers once magnitude > 0.1
             if (gamepad2.left_trigger > 0.2) {
-                // Retracting the slider through driver control
-                // Reset the run to position indicators
-                SliderExtendInd=0;
                 sliderControl.SliderRunModEncoder();
                 sliderControl.setSliderPower(-gamepad2.left_trigger * 0.6);
 
@@ -223,24 +253,15 @@ public class SimpleTeleop extends LinearOpMode {
 
                 // extending the slider through driver control
                 // Reset the run to position indicators
-                SliderExtendInd = 0;
                 sliderControl.SliderRunModEncoder();
                 SliderCurLen = sliderControl.getSliderLen();
                 sliderControl.setSliderPower(gamepad2.right_trigger * 0.6);
             } else {
-                if ( SliderExtendInd==0) {
                     // zero power plus run mode reset
                     sliderControl.SliderRunModReset();
-                }
+
             }
-            // dpad_up to extend the slide
-            if (gamepad2.dpad_up) {
-                SliderExtendInd= 1;
-                SliderCurLen=sliderControl.getSliderLen();
-            }
-            if(SliderExtendInd==1) {
-                sliderControl.setSliderLenIncrement(SliderCurLen,SliderAdjust);
-            }
+            
             
 
             // - - - Gripper control - - - //

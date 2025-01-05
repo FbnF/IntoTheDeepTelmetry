@@ -4,11 +4,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmControl {
 
     // Arm control variables
     private DcMotorEx ArmMotor;
+    private Servo hangservo     = null;
     private double initialPosDeg=-20;
     private double DepositAngle=89;
     private double IntakeAngle= -10;
@@ -17,6 +19,8 @@ public class ArmControl {
 
     private int desArmPosTick;
     private double degreesPerTick = 360.0 / 5/1425.1;
+    private double HangServoUp= 0.65;
+    private double HangServoSide=1.0;
 
     LinearOpMode    opmode;
     public ArmControl(LinearOpMode opmode) {
@@ -29,6 +33,12 @@ public class ArmControl {
         ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         ArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // servo for hanging: hangservo
+
+        hangservo = hardwareMap.get(Servo.class,"hangservo");
+        hangservo.setDirection(Servo.Direction.REVERSE);
+
     }
     public double getActArmPosDeg(){
         return ArmMotor.getCurrentPosition() * degreesPerTick + initialPosDeg;
@@ -97,4 +107,19 @@ public class ArmControl {
     public void ArmEncoderReset(){
         ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
+    //Hangservo control
+    // Hang servo up function
+    public void setHangServoUp() {
+        //Blocking block up to blocking the arm
+        setHangServoPosition(HangServoUp);
+    }
+    // Hang servo side function
+    public void setHangServoSide() {
+        //Stop blocking the arm
+        setHangServoPosition(HangServoSide);
+    }
+    // Setting hangservo position
+    public void setHangServoPosition(double pos_request) {
+        hangservo.setPosition(pos_request);}
 }
