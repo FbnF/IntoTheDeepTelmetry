@@ -55,6 +55,8 @@ public class SimpleTeleop extends LinearOpMode {
     private double SliderAdjust=0.5;
     // Arm lower angle with gamepad 2 dpad_down
     private double ArmLowerAngle=7;
+    // Arm hanging power constant: must be negative to close the Arm
+    private double ArmHangPower=-0.6;
 
 
     FtcDashboard dashboard;
@@ -73,6 +75,7 @@ public class SimpleTeleop extends LinearOpMode {
         // - - - Setting up Arm motors - - - //
         armControl = new ArmControl(this);
         armControl.init(hardwareMap);
+        // Set the Hang servo up to put the blocking plate in place to hold the arm up
         armControl.setHangServoUp();
 
         // - - - Setting up Slider motors - - - //
@@ -103,9 +106,6 @@ public class SimpleTeleop extends LinearOpMode {
         // - - - Waiting for start signal from driver station - - - //
         waitForStart();
         teleopTimer.reset();
-        // - - - Waiting for start signal from driver station - - - //
-
-        // - - - - - - - - - - Initialize components - - - - - - - - - -
 
 
         // - - - - - - - - - - Main Teleop Loop - - - - - - - - - -
@@ -197,9 +197,9 @@ public class SimpleTeleop extends LinearOpMode {
             if(ArmLowerInd==1) {
                 armControl.setDesArmPosDeg(ArmCurPosDeg-ArmLowerAngle);
             }
-            /*
-            // Gamepad 1 a button: set arm power to 0.7 to hang the robot
-            if (gamepad1.a) {
+
+            // Gamepad 2 left stick down push: set arm power to ArmHangPower to hang the robot
+            if (gamepad2.left_stick_y<-0.4) {
                 ArmDepositInd=0;
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
@@ -210,10 +210,10 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
             if(ArmHangInd==1){
-                armControl.setArmPower(-0.6);
+                armControl.setArmPower(ArmHangPower);
             }
 
-             */
+
             // Allow user to control the arm position once it is pushed more than 0.1 in magnitude
             if (Math.abs(gamepad2.right_stick_y) > 0.2 ) {
                     // Reset all the position indicators

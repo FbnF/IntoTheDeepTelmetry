@@ -19,8 +19,8 @@ public class ArmControl {
 
     private int desArmPosTick;
     private double degreesPerTick = 360.0 / 5/1425.1;
-    private double HangServoUp= 0.65;
-    private double HangServoSide=1.0;
+    private double HangServoUp= 0.3;
+    private double HangServoSide=0.65;
 
     LinearOpMode    opmode;
     public ArmControl(LinearOpMode opmode) {

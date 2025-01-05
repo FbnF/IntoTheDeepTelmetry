@@ -32,6 +32,8 @@ public class ObserverSide_Auto extends LinearOpMode {
         // - - - Setting up Arm motors - - - //
         armControl = new ArmControl(this);
         armControl.init(hardwareMap);
+        // Set the Hang servo up to put the blocking plate in place to hold the arm up
+        armControl.setHangServoUp();
         //armControl.setDesArmPosDeg(-5);
 
         // - - - Setting up Slider motors - - - //
