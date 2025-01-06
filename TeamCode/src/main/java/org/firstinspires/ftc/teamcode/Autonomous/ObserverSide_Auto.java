@@ -55,8 +55,8 @@ public class ObserverSide_Auto extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         Pose2d SpecimenDropoffPos = new Pose2d(36, 63, Math.toRadians(0));
-        Pose2d SamplePickUpPos1 = new Pose2d(29.3, 20, Math.toRadians(0));
-        Pose2d SpecimenDropoffPos2 = new Pose2d(36, 58.5, Math.toRadians(0));
+        Pose2d SamplePickUpPos1 = new Pose2d(28, 19.3, Math.toRadians(0));
+        Pose2d SpecimenDropoffPos2 = new Pose2d(36.5, 58.5, Math.toRadians(0));
         Pose2d SamplePickUpPos2 = new Pose2d(28.5, 12, Math.toRadians(0));
         Pose2d SampleDropoffPos = new Pose2d(25, 28, -Math.toRadians(135));
         Pose2d Specimen2WaitPos = new Pose2d(18, 44, -Math.toRadians(90));
@@ -91,7 +91,7 @@ public class ObserverSide_Auto extends LinearOpMode {
 
                 // Step 4: Move to Sample 1 and extend the slide to pick up the Sample 1
                 .lineToLinearHeading(SamplePickUpPos1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(6))
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(6.5))
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setGripperClosed())
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> sliderControl.setDesSliderLen(2))
                 .waitSeconds(1)
@@ -106,7 +106,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(Specimen2WaitPos)
                 .waitSeconds(3.0)
                 .forward(4)
-                //.UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(6))
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> sliderControl.setDesSliderLen(0.5))
                 .UNSTABLE_addTemporalMarkerOffset(0.6, () -> gripper.setGripperClosed())
                 .waitSeconds(1.0)
                 /*

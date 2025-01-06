@@ -199,7 +199,7 @@ public class SimpleTeleop extends LinearOpMode {
             }
 
             // Gamepad 2 left stick down push: set arm power to ArmHangPower to hang the robot
-            if (gamepad2.left_stick_y<-0.4) {
+            if (gamepad2.left_stick_y>0.2) {
                 ArmDepositInd=0;
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
@@ -210,6 +210,7 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
             if(ArmHangInd==1){
+                armControl.ArmRunModEncoder();
                 armControl.setArmPower(ArmHangPower);
             }
 
@@ -337,7 +338,8 @@ public class SimpleTeleop extends LinearOpMode {
             telemetry.addData("Arm Motor Power", "%.2f",armControl.getArmPower());
             telemetry.addData("Elapsed Time", "%.2f", teleopTimer.time());
             telemetry.addData("TwoStage Position", sliderControl.getSliderLen());
-            telemetry.addData("Gripper Roll In Indicator", GripperRollInInd);
+            telemetry.addData("Gamepad left stick Y", gamepad2.left_stick_y);
+            telemetry.addData("Arm hang indicator", ArmHangInd);
             telemetry.addData("Active Speed Factor: ", speedFactor);
             telemetry.addData("Gripper tght request: ", TighterGripAdjustInd);
             telemetry.addData("Current  Gripper Position: ", gripper.getGripperCurPos());
