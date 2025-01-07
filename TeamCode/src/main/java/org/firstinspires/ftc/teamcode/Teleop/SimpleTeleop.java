@@ -56,7 +56,7 @@ public class SimpleTeleop extends LinearOpMode {
     // Arm lower angle with gamepad 2 dpad_down
     private double ArmLowerAngle=7;
     // Arm hanging power constant: must be negative to close the Arm
-    private double ArmHangPower=-0.6;
+    private double ArmHangPower=-0.08;
 
 
     FtcDashboard dashboard;
@@ -128,8 +128,8 @@ public class SimpleTeleop extends LinearOpMode {
                 speedFactor = 0.2;
             }
 
-            // Gamepad1 dpad down to set the arm blocking down
-            if (gamepad1.dpad_down) {
+            // Gamepad1 left_bumper to set the arm blocking down
+            if (gamepad1.left_bumper) {
                armControl.setHangServoSide();
             }
 
@@ -283,10 +283,10 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad2.right_bumper) {
                 gripper.setGripperHolderParallel();
             }
-            // gamepad1 right bumper to set the Gripper closer position to make the grip tighter,
+            // gamepad1 dpad up to set the Gripper closer position to make the grip tighter,
             // which is to compensate the fact that the gripper is not robust enough
             // and it will lose its grip after several usage.
-            if (gamepad1.right_bumper ) {
+            if (gamepad1.dpad_up) {
                 // Increment TighterGripAdjustInd when Y is pushed. Actual behaviour
                 // is that even a simple push will produce a signal being true for
                 // several loops.
@@ -302,9 +302,9 @@ public class SimpleTeleop extends LinearOpMode {
                 gripper.setGripperPosition(GripperTeleOpClosePos);
             }
 
-            // gamepad1 left bumper to set the Gripper closer position looser,
+            // gamepad1 dpad down to set the Gripper closer position looser,
             // which is to help with calibration
-            if (gamepad1.left_bumper ) {
+            if (gamepad1.dpad_down ) {
                 // Increment TighterGripAdjustInd when Y is pushed. Actual behaviour
                 // is that even a simple push will produce a signal being true for
                 // several loops.
