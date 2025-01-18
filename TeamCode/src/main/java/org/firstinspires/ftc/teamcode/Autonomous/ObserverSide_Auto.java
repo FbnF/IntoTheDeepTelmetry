@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -45,16 +43,16 @@ public class ObserverSide_Auto extends LinearOpMode {
         gripper.init(hardwareMap);
         //Gripper closed state
         gripper.setGripperClosed();
-        //Gripper holder to the side
-        gripper.setGripperHolderParallel();
-        gripper.setAnglerSide();
+        //Gripper holder perpendicular to the bar
+        gripper.setGripperHolderPerpendicular();
+        gripper.setAnglerInit();
 
 
         // Define starting position
         Pose2d startPos = new Pose2d(8, 53, Math.toRadians(0));
         drive.setPoseEstimate(startPos);
 
-        Pose2d SpecimenDropoffPos = new Pose2d(36, 63, Math.toRadians(0));
+        Pose2d SpecimenDropoffPos = new Pose2d(35, 63, Math.toRadians(0));
         Pose2d SamplePickUpPos1 = new Pose2d(28, 19.3, Math.toRadians(0));
         Pose2d SpecimenDropoffPos2 = new Pose2d(36.5, 58.5, Math.toRadians(0));
         Pose2d SamplePickUpPos2 = new Pose2d(28.5, 12, Math.toRadians(0));

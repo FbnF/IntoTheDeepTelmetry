@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Teleop;
 
 // - - - - - - - - - - Imports - - - - - - - - - - - - -
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -9,7 +8,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -36,7 +34,8 @@ public class SimpleTeleop extends LinearOpMode {
     private SliderControl sliderControl;
     private double speedFactor = 0.6;
     private double RuntoPositionPower =0.4;
-    private double DepositAngle=55;
+    private double SpecimenDropAng=63;
+    private int ArmSpecimenInd = 0;
     private int ArmHangInd=0;
     private int ArmLatchInd= 0;
     private int ArmDepositInd=0;
@@ -81,13 +80,10 @@ public class SimpleTeleop extends LinearOpMode {
         // - - - Setting up Slider motors - - - //
         sliderControl = new SliderControl(this);
         sliderControl.init(hardwareMap);
-        
 
         // - - - Set up dashboard telemetry - - - //
         dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-
-
 
         // - - - Initialize gripper to starting position - - - //
         gripper = new Gripper(this);
@@ -101,7 +97,9 @@ public class SimpleTeleop extends LinearOpMode {
         //gripper.setGripperOpen();
         //Gripper holder to the side
         //gripper.setGripperHolderParallel();
-        //gripper.setAnglerSide();
+        //gripper.setAnglerForward();
+        gripper.setAnglerDown();
+        //gripper.setGripperHolderPerpendicular();
         
         // - - - Waiting for start signal from driver station - - - //
         waitForStart();
@@ -149,6 +147,7 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmIntakeInd=0;
                 ArmDepositInd=0;
                 ArmHangInd=0;
+                ArmSpecimenInd = 0;
                 ArmLowerInd =0;
                 ArmFixAngleInd=0;
                 ArmCurPosDeg= armControl.getActArmPosDeg();
@@ -158,10 +157,24 @@ public class SimpleTeleop extends LinearOpMode {
                 // Holding the Arm in position when ArmLatchInd is 1
                 armControl.setDesArmPosDeg(ArmCurPosDeg);
             }
+            // Right bumper to set Arm to the target angle for specimen drop-off
+            if (gamepad1.right_bumper) {
+                ArmSpecimenInd = 1;
+                ArmDepositInd=0;
+                ArmIntakeInd=0;
+                ArmLatchInd=0;
+                ArmHangInd=0;
+                ArmLowerInd =0;
+                ArmFixAngleInd=0;
+            }
+            if(ArmSpecimenInd==1){
+                armControl.setDesArmPosDeg(SpecimenDropAng);
+            }
 
             // Left bumper to set Arm to the Deposit angle for depositing the sample
             if (gamepad2.left_bumper) {
                 ArmDepositInd=1;
+                ArmSpecimenInd = 0;
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
                 ArmHangInd=0;
@@ -175,6 +188,7 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad2.dpad_up) {
                 ArmFixAngleInd= 1;
                 ArmDepositInd=0;
+                ArmSpecimenInd = 0;
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
                 ArmHangInd=0;
@@ -191,6 +205,7 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
                 ArmHangInd=0;
+                ArmSpecimenInd = 0;
                 ArmFixAngleInd=0;
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
@@ -204,6 +219,7 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmIntakeInd=0;
                 ArmLatchInd=0;
                 ArmLowerInd=0;
+                ArmSpecimenInd = 0;
                 ArmHangInd=1;
                 ArmFixAngleInd=0;
 
@@ -223,12 +239,13 @@ public class SimpleTeleop extends LinearOpMode {
                     ArmDepositInd=0;
                     ArmHangInd=0;
                     ArmLowerInd=0;
+                    ArmSpecimenInd = 0;
                     ArmFixAngleInd=0;
                     armControl.ArmRunModEncoder();
                     armControl.setArmPower(-1.0 * gamepad2.right_stick_y * 0.8);
                 } else {
                 if( ArmIntakeInd==0 && ArmLatchInd==0 && ArmDepositInd==0
-                        && ArmHangInd==0 && ArmLowerInd==0 && ArmFixAngleInd==0) {
+                        && ArmHangInd==0 && ArmLowerInd==0 && ArmFixAngleInd==0 && ArmSpecimenInd==0) {
                     // zero power plus run mode reset
                     armControl.ArmRunModReset();
                 }
@@ -262,8 +279,7 @@ public class SimpleTeleop extends LinearOpMode {
                     sliderControl.SliderRunModReset();
 
             }
-            
-            
+
 
             // - - - Gripper control - - - //
             // gamepad2 b button for open the gripper
@@ -274,6 +290,7 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad2.x){
                 gripper.setGripperPosition(GripperTeleOpClosePos);
             }
+
             // - - - Gripper Holder control - - - //
             // gamepad2 y button for setting gripper holder forward
             if (gamepad2.y) {
@@ -283,7 +300,7 @@ public class SimpleTeleop extends LinearOpMode {
             if (gamepad2.right_bumper) {
                 gripper.setGripperHolderParallel();
             }
-            // gamepad1 dpad up to set the Gripper closer position to make the grip tighter,
+// gamepad1 dpad up to set the Gripper closer position to make the grip tighter,
             // which is to compensate the fact that the gripper is not robust enough
             // and it will lose its grip after several usage.
             if (gamepad1.dpad_up) {
@@ -323,13 +340,12 @@ public class SimpleTeleop extends LinearOpMode {
             // angler control using gamepad2 dpad left and right (Hat)
             // dpad_left to for the Gripper system to face forward
             if (gamepad2.dpad_left) {
-                gripper.setAnglerForward();
+                gripper.setAnglerDown();
             }
             // dpad_right to set the Gripper system to the Side position
             if (gamepad2.dpad_right) {
-                gripper.setAnglerSide();
+                gripper.setAnglerForward();
             }
-
             // - - - Telemetry Updates - - - //
             // Sending important data to telemetry to monitor
             telemetry.addData("Arm Actual Position in Degree","%.3f", armControl.getActArmPosDeg());
@@ -338,12 +354,12 @@ public class SimpleTeleop extends LinearOpMode {
             telemetry.addData("Arm Motor Power", "%.2f",armControl.getArmPower());
             telemetry.addData("Elapsed Time", "%.2f", teleopTimer.time());
             telemetry.addData("TwoStage Position", sliderControl.getSliderLen());
-            telemetry.addData("Gamepad left stick Y", gamepad2.left_stick_y);
-            telemetry.addData("Arm hang indicator", ArmHangInd);
+            telemetry.addData("Gripper Roll In Indicator", GripperRollInInd);
             telemetry.addData("Active Speed Factor: ", speedFactor);
             telemetry.addData("Gripper tght request: ", TighterGripAdjustInd);
             telemetry.addData("Current  Gripper Position: ", gripper.getGripperCurPos());
             telemetry.update();
+
 
         }
     }

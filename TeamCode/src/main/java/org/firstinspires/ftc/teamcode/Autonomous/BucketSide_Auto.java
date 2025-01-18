@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -45,9 +43,9 @@ public class BucketSide_Auto extends LinearOpMode {
         gripper.init(hardwareMap);
         //Gripper closed state
         gripper.setGripperClosed();
-        //Gripper holder to the side
-        gripper.setGripperHolderParallel();
-        gripper.setAnglerSide();
+        //Gripper holder perpendicular to the bar
+        gripper.setGripperHolderPerpendicular();
+        gripper.setAnglerInit();
 
         // Initialize telemetry
         //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -59,20 +57,20 @@ public class BucketSide_Auto extends LinearOpMode {
         Pose2d SpecimenDropoffPos = new Pose2d(35, 79, Math.toRadians(0));
         Pose2d SampleDropoffPos1 = new Pose2d(20, 123, Math.toRadians(135));
         Pose2d PushPos1 = new Pose2d(56, 100, Math.toRadians(0));
-        Pose2d SamplePickUpPos1 = new Pose2d(29.3, 120, Math.toRadians(0));
+        Pose2d SamplePickUpPos1 = new Pose2d(33, 123.6, Math.toRadians(0));
 
         // Define the trajectory sequence
         TrajectorySequence StageRedBucket = drive.trajectorySequenceBuilder(startPos)
 
                 // Step 1: Set the gripper and arm in the right position for Specimen drop off
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(74);})
-                .UNSTABLE_addTemporalMarkerOffset(0.3,()->{gripper.setAnglerForward();})
-                .UNSTABLE_addTemporalMarkerOffset(0.3,()->{gripper.setGripperHolderPerpendicular();})
-                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(65);})
+                .UNSTABLE_addTemporalMarkerOffset(0.1,()->{gripper.setAnglerForward();})
+                //.UNSTABLE_addTemporalMarkerOffset(0.3,()->{gripper.setGripperHolderPerpendicular();})
+                //.waitSeconds(0.5)
                 // Step 2: Approach the Specimen drop off position and move forward to approach
                 // the top bar
                 .lineToLinearHeading(SpecimenDropoffPos)
-                .forward(3.8)
+                .forward(2.5)
 
                 // Step 3: Set Arm downward to prepare for placing the Specimen
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(40);})
@@ -86,12 +84,14 @@ public class BucketSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
                 .waitSeconds(0.6)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setArmPower(0))
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerForward())
 
                 // Step 5: Move to Sample 1 and extend the slide to pick up the Sample 1
                 .lineToLinearHeading(SamplePickUpPos1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(5.5))
-                .UNSTABLE_addTemporalMarkerOffset(1.0, () -> gripper.setGripperClosed())
-                .waitSeconds(1.2)
+               // .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(2))
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerDown())
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> gripper.setGripperClosed())
+                .waitSeconds(0.5)
 
                 // Step 6: Retract the slide and set Arm to Deposit angle
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setDesSliderLen(0))
@@ -119,16 +119,16 @@ public class BucketSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.8, () -> gripper.setGripperClosed())
                 .waitSeconds(1)
                 .back(5)
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(7);})
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(9);})
                 .waitSeconds(0.8)
 
                 // Step 8: Go Back to the position PushPos1 for level 1 ascent
                 .lineToLinearHeading(PushPos1)
                 .turn(-Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(25);})
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(22);})
                 //.UNSTABLE_addTemporalMarkerOffset(0.0, () -> {sliderControl.setDesSliderLen(8);})
                 .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setArmPower(-0.4);})
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.ArmRunModReset();})
                 .waitSeconds(2)
 
                 //final build
