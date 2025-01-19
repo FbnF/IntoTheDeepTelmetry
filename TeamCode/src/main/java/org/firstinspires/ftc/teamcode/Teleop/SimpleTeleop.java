@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 // - - - - - - - - - - Imports - - - - - - - - - - - - -
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -97,8 +96,8 @@ public class SimpleTeleop extends LinearOpMode {
         //gripper.setGripperOpen();
         //Gripper holder to the side
         //gripper.setGripperHolderParallel();
-        //gripper.setAnglerForward();
-        gripper.setAnglerDown();
+        //gripper.setAnglerSample();
+        gripper.setAnglerSpecimen();
         //gripper.setGripperHolderPerpendicular();
         
         // - - - Waiting for start signal from driver station - - - //
@@ -340,11 +339,11 @@ public class SimpleTeleop extends LinearOpMode {
             // angler control using gamepad2 dpad left and right (Hat)
             // dpad_left to for the Gripper system to face forward
             if (gamepad2.dpad_left) {
-                gripper.setAnglerDown();
+                gripper.setAnglerSpecimen();
             }
             // dpad_right to set the Gripper system to the Side position
             if (gamepad2.dpad_right) {
-                gripper.setAnglerForward();
+                gripper.setAnglerSample();
             }
             // - - - Telemetry Updates - - - //
             // Sending important data to telemetry to monitor

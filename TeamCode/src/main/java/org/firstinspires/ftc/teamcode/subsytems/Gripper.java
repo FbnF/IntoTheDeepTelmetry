@@ -33,9 +33,9 @@ public class Gripper {
     // for gripper servo
     private double GripperClose=0.38;//0.25
 
-    //AnglerForward: The initial position for the angler servo to ensure the gripper could
+    //AnglerSamplePos: The initial position for the angler servo to ensure the gripper could
     //pick up the specimen
-    private double AnglerForward=0.78;
+    private double AnglerSamplePos =0.78;
     //AnglerSpecimenPos: The angler servo Position for the angler servo to allow regular specimen pick up
     private double AnglerSpecimenPos =0.39;
     // AnglerInitPos: Initial angler position to meet the dimension limitation
@@ -109,13 +109,13 @@ public class Gripper {
     }
 
     // Gripper system facing the side
-    public void setAnglerForward() {
+    public void setAnglerSample() {
         //Gripper system Side Position
-        setAnglerPosition(AnglerForward);
+        setAnglerPosition(AnglerSamplePos);
     }
 
     // Gripper system down position for regular pick up
-    public void setAnglerDown() {
+    public void setAnglerSpecimen() {
         //Gripper system Forward Position
         setAnglerPosition(AnglerSpecimenPos);
     }
