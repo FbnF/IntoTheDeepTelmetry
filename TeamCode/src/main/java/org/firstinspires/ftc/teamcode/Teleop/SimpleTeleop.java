@@ -225,7 +225,6 @@ public class SimpleTeleop extends LinearOpMode {
                 ArmCurPosDeg= armControl.getActArmPosDeg();
             }
             if(ArmHangInd==1){
-                armControl.ArmRunModEncoder();
                 armControl.setArmPower(ArmHangPower);
             }
 
@@ -240,7 +239,6 @@ public class SimpleTeleop extends LinearOpMode {
                     ArmLowerInd=0;
                     ArmSpecimenInd = 0;
                     ArmFixAngleInd=0;
-                    armControl.ArmRunModEncoder();
                     armControl.setArmPower(-1.0 * gamepad2.right_stick_y * 0.8);
                 } else {
                 if( ArmIntakeInd==0 && ArmLatchInd==0 && ArmDepositInd==0
