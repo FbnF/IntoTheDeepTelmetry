@@ -55,7 +55,7 @@ public class BucketSide_Auto extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         Pose2d SpecimenDropoffPos = new Pose2d(33.5, 79, Math.toRadians(0));
-        Pose2d SampleDropoffPos1 = new Pose2d(30, 110, Math.toRadians(135));
+        Pose2d SampleDropoffPos1 = new Pose2d(34, 110, Math.toRadians(135));
         Pose2d AssentPos = new Pose2d(62, 110, -Math.toRadians(90));
         Pose2d SamplePickUpPos1 = new Pose2d(35, 121.6, Math.toRadians(0));
         Pose2d SamplePickUpPos2 = new Pose2d(35, 126, Math.toRadians(0));
@@ -81,7 +81,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Step 4: Move backward and open the Gripper to place and release the Specimen.
                 // At the same time, drop the arm all the way down and set its power to zero
                 // afterwards
-                .back(7.5)
+                .back(10)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
                 .waitSeconds(0.2)
@@ -109,7 +109,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SampleDropoffPos1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSpecimen())
                 //.waitSeconds(0.2)
-                .forward(19.5)
+                .forward(23)
                 // Lower the Arm angle and turn the Gripper perpendicular once above the bucket
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(82))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSample())
@@ -135,7 +135,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Potential Sample 2 pick up code should be placed here
                 // Step 5: Move to Sample 2 and extend the slide to pick up the Sample 1
                 .lineToLinearHeading(SamplePickUpPos2)
-                .strafeLeft(5.5)
+                .strafeLeft(5)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
                 .waitSeconds(0.3)
@@ -155,7 +155,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SampleDropoffPos1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSpecimen())
                 .waitSeconds(0.2)
-                .forward(19.5)
+                .forward(23)
                 // Lower the Arm angle and turn the Gripper perpendicular once above the bucket
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(82))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSample())

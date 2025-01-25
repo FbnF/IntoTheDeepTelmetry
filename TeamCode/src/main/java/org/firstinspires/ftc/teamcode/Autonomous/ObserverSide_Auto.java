@@ -52,16 +52,16 @@ public class ObserverSide_Auto extends LinearOpMode {
         Pose2d startPos = new Pose2d(8, 53, Math.toRadians(0));
         drive.setPoseEstimate(startPos);
 
-        Pose2d SamplePickUpPos1 = new Pose2d(35, 21.3, Math.toRadians(0));
-        Pose2d SamplePickUpPos2 = new Pose2d(35, 14, Math.toRadians(0));
+        Pose2d SamplePickUpPos1 = new Pose2d(34, 22, Math.toRadians(0));
+        Pose2d SamplePickUpPos2 = new Pose2d(34.5, 15.5, Math.toRadians(0));
 
-        Pose2d SpecimenDropoffPos = new Pose2d(33.5, 63, Math.toRadians(0));
-        Pose2d SpecimenDropoffPos2 = new Pose2d(33.5, 59, Math.toRadians(0));
-        Pose2d SpecimenDropoffPos3 = new Pose2d(33.5, 55, Math.toRadians(0));
+        Pose2d SpecimenDropoffPos = new Pose2d(33.5, 65, Math.toRadians(0));
+        Pose2d SpecimenDropoffPos2 = new Pose2d(33.5, 62, Math.toRadians(0));
+        Pose2d SpecimenDropoffPos3 = new Pose2d(33.5, 68, Math.toRadians(0));
 
         Pose2d SampleDropoffPos = new Pose2d(25, 28, -Math.toRadians(135));
         Pose2d Specimen2WaitPos = new Pose2d(18, 44, -Math.toRadians(90));
-        Pose2d SpecimenPickupPos = new Pose2d(20, 33, -Math.toRadians(180));
+        Pose2d SpecimenPickupPos = new Pose2d(32, 31, -Math.toRadians(180));
         Pose2d ParkPos = new Pose2d(10, 11, Math.toRadians(0));
 
         // Define the trajectory sequence for the Observer side
@@ -70,23 +70,25 @@ public class ObserverSide_Auto extends LinearOpMode {
                 //--------------- Specimen 1 Operation ------------------ //
                 // Step 1: Set the gripper and arm in the right position for Specimen drop off
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(71);})
-                .UNSTABLE_addTemporalMarkerOffset(0.1,()->{gripper.setAnglerSample();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0,()->{gripper.setAnglerSample();})
 				.UNSTABLE_addTemporalMarkerOffset(0.1,()->{gripper.setGripperHolderPerpendicular();})
 
                 // Step 2: Move the robot to the Specimen drop off position and move forward,
                 // then set the Arm down to prepare for placing the Specimen
                 .lineToLinearHeading(SpecimenDropoffPos)
+                .waitSeconds(0.15)
                 .forward(4)
+
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {armControl.setDesArmPosDeg(40);})
                 .waitSeconds(0.1)
 
                 // Step 3: Move backward and open the Gripper to place and release the Specimen.
                 // At the same time, drop the arm all the way down and set its power to zero
                 // afterwards
-                .back(7.5)
+                .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
-           
+                .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> armControl.setArmPower(0))
 				.UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSpecimen())
 
@@ -96,7 +98,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SamplePickUpPos1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
-                .waitSeconds(0.3)
+                .waitSeconds(0.4)
 
                 //Step 5: Goto SampleDropoffPos to drop off Sample 1
                 .lineToLinearHeading(SampleDropoffPos)
@@ -123,9 +125,9 @@ public class ObserverSide_Auto extends LinearOpMode {
                 // Picking up Specimen 2 from Specimen2WaitPos
                 .lineToLinearHeading(SpecimenPickupPos)
                 //.waitSeconds(3.0)
-                .forward(2)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setGripperClosed())
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerPosition(0.28))
+                .forward(7.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.05, () -> gripper.setGripperClosed())
+                .UNSTABLE_addTemporalMarkerOffset(0.25, () -> gripper.setAnglerPosition(0.28))
                 .waitSeconds(0.3)
                 .back(5)
                 // Step 7: Turn left 135 degrees and raise the Arm to prepare for
@@ -142,7 +144,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 // Step 9: Move backward and open the Gripper to place and release the Specimen.
                 // At the same time, drop the arm all the way down and set its power to zero
                 // afterwards
-                .back(7.5)
+                .back(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> armControl.setArmPower(0))
@@ -152,8 +154,8 @@ public class ObserverSide_Auto extends LinearOpMode {
                 // Picking up Specimen 3 from SpecimenPickupPos
                 .lineToLinearHeading(SpecimenPickupPos)
                 //.waitSeconds(3.0)
-                .forward(2)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setGripperClosed())
+                .forward(8)
+                .UNSTABLE_addTemporalMarkerOffset(0.05, () -> gripper.setGripperClosed())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerPosition(0.28))
                 .waitSeconds(0.3)
                 .back(5)
@@ -164,7 +166,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 //.turn(Math.toRadians(135))
 
                 // Step 8: Specimen 3 drop off attempt
-                .lineToLinearHeading(SpecimenDropoffPos2)
+                .lineToLinearHeading(SpecimenDropoffPos3)
                 .forward(4)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {armControl.setDesArmPosDeg(40);})
                 .waitSeconds(0.2)
