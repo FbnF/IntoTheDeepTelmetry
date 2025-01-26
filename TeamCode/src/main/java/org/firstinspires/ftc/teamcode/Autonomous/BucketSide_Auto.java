@@ -81,7 +81,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Step 4: Move backward and open the Gripper to place and release the Specimen.
                 // At the same time, drop the arm all the way down and set its power to zero
                 // afterwards
-                .back(10)
+                .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
                 .waitSeconds(0.2)
@@ -93,7 +93,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
                 .waitSeconds(0.3)
-                .back(5)
+                .back(9)
 
                 // Step 6: Set Arm to Deposit angle and extend slides for deposit
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setArmDeposit())
@@ -169,7 +169,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(0);})
                 .waitSeconds(1)
 
-                /*
+
                 .back(25)
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(12);})
 
@@ -182,7 +182,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(10);})
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {armControl.ArmRunModReset();})
                 .waitSeconds(0.3)
-                */
+
 
                 //final build
                 .build();
