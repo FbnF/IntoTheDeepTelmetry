@@ -55,7 +55,8 @@ public class BucketSide_Auto extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         Pose2d SpecimenDropoffPos = new Pose2d(33.5, 79, Math.toRadians(0));
-        Pose2d SampleDropoffPos1 = new Pose2d(34, 110, Math.toRadians(135));
+        Pose2d SampleDropoffPos1 = new Pose2d(24, 115, Math.toRadians(0));
+        Pose2d SampleDropoffPos2 = new Pose2d(17, 127, Math.toRadians(135));
         Pose2d AssentPos = new Pose2d(62, 110, -Math.toRadians(90));
         Pose2d SamplePickUpPos1 = new Pose2d(35, 121.6, Math.toRadians(0));
         Pose2d SamplePickUpPos2 = new Pose2d(35, 126, Math.toRadians(0));
@@ -101,30 +102,30 @@ public class BucketSide_Auto extends LinearOpMode {
                 //.UNSTABLE_addTemporalMarkerOffset(0.2, () -> sliderControl.setSliderDeposit())
                 //.waitSeconds(0.1)
 
-                // Step 7: Turn 135 degrees to face the bucket and go to the bucket to
-                // drop off Sample 1
-                .turn(Math.toRadians(135))
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> sliderControl.setSliderDeposit())
+                // Step 7: Go to the bucket to drop off Sample 1
+                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> sliderControl.setSliderDeposit())
+                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setAnglerSpecimen())
                 .waitSeconds(0.2)
+
+                // Go to the target position then final position: split into two section to ensure
+                // the arm and slider and gripper are all in position before turn
+
                 .lineToLinearHeading(SampleDropoffPos1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSpecimen())
-                //.waitSeconds(0.2)
-                .forward(23)
+                .lineToLinearHeading(SampleDropoffPos2)
                 // Lower the Arm angle and turn the Gripper perpendicular once above the bucket
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(82))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSample())
-
                 // Open the gripper to drop the sample and raise the Arm, then close the gripper
                 // and retract the slide
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> gripper.setGripperOpen())
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> gripper.setGripperOpen())
                 //.UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setGripperHolderParallel())
                 .UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setAnglerSpecimen())
-                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> armControl.setArmDeposit())
-                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> armControl.setArmDeposit())
+                .waitSeconds(0.6)
                 //.back(5)
 
                 //Increase the back travel to avoid hitting the side wall
-                .back(15)
+                .back(10)
                 // Retract the two stage slides and lower the arm and set the gripper holder position
                 // to prepare for sample 2 pick up
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {sliderControl.setDesSliderLen(0);})
@@ -142,36 +143,35 @@ public class BucketSide_Auto extends LinearOpMode {
                 .strafeRight(10)
 
 
-                // Step 6: Set Arm to Deposit angle
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> armControl.setArmDeposit())
+                // Step 6: Set Arm to Deposit angle and extend slides for deposit
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setArmDeposit())
 
-                //.waitSeconds(0.4)
+                //.UNSTABLE_addTemporalMarkerOffset(0.2, () -> sliderControl.setSliderDeposit())
+                //.waitSeconds(0.1)
 
-                // Step 7: Turn 135 degrees to face the bucket, extend the slides and go to the
-                // bucket to drop off Sample 1
-                .turn(Math.toRadians(135))
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> sliderControl.setSliderDeposit())
+                // Step 7: Go to the bucket to drop off Sample 1
+                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> sliderControl.setSliderDeposit())
+                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setAnglerSpecimen())
                 .waitSeconds(0.2)
+
+                // Go to the target position then final position: split into two section to ensure
+                // the arm and slider and gripper are all in position before turn
+
                 .lineToLinearHeading(SampleDropoffPos1)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSpecimen())
-                .waitSeconds(0.2)
-                .forward(23)
+                .lineToLinearHeading(SampleDropoffPos2)
                 // Lower the Arm angle and turn the Gripper perpendicular once above the bucket
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(82))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSample())
-
                 // Open the gripper to drop the sample and raise the Arm, then close the gripper
+                // and retract the slide
                 .UNSTABLE_addTemporalMarkerOffset(0.3, () -> gripper.setGripperOpen())
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> gripper.setAnglerSpecimen())
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> armControl.setArmDeposit())
-                .waitSeconds(0.4)
-                .back(15)
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(0);})
-                .waitSeconds(1)
-
+                //.UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setGripperHolderParallel())
+                .UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setAnglerSpecimen())
+                .UNSTABLE_addTemporalMarkerOffset(0.6, () -> armControl.setArmDeposit())
+                .waitSeconds(0.6)
 
                 .back(25)
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(12);})
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(14);})
 
                 // Go to the sample 1 pick up position
                 //.lineToLinearHeading(SamplePickUpPos1)
@@ -179,8 +179,8 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Go to the position  for level 1 ascent
                 .lineToLinearHeading(AssentPos)
                 //.turn(-Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(10);})
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {armControl.ArmRunModReset();})
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(20);})
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {armControl.ArmRunModReset();})
                 .waitSeconds(0.3)
 
 
