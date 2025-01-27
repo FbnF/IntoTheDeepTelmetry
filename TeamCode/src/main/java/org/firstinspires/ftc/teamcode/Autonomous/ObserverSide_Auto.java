@@ -52,8 +52,8 @@ public class ObserverSide_Auto extends LinearOpMode {
         Pose2d startPos = new Pose2d(8, 53, Math.toRadians(0));
         drive.setPoseEstimate(startPos);
 
-        Pose2d SamplePickUpPos1 = new Pose2d(34, 22, Math.toRadians(0));
-        Pose2d SamplePickUpPos2 = new Pose2d(34.5, 15.5, Math.toRadians(0));
+        Pose2d SamplePickUpPos1 = new Pose2d(35, 22.8, Math.toRadians(0));
+        Pose2d SamplePickUpPos2 = new Pose2d(35, 14.5, Math.toRadians(0));
 
         Pose2d SpecimenDropoffPos = new Pose2d(32, 65, Math.toRadians(0));
         Pose2d SpecimenDropoffPos2 = new Pose2d(32, 62, Math.toRadians(0));
@@ -87,8 +87,8 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> armControl.setDesArmPosDeg(-20))
-                .waitSeconds(0.2)
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> armControl.setArmPower(0))
+                .waitSeconds(0.3)
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> armControl.setArmPower(0))
 				.UNSTABLE_addTemporalMarkerOffset(0.3, () -> gripper.setAnglerSpecimen())
 
                 //--------------- Sample 1 pick up and drop off Operation ------------------ //
@@ -97,7 +97,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SamplePickUpPos1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
-                .waitSeconds(0.4)
+                .waitSeconds(0.35)
 
                 //Step 5: Goto SampleDropoffPos to drop off Sample 1
                 .lineToLinearHeading(SampleDropoffPos)
@@ -111,7 +111,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SamplePickUpPos2)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
-                .waitSeconds(0.3)
+                .waitSeconds(0.35)
 
                 // Step 7: Goto Sample drop off position  to drop off Sample 2
                 .lineToLinearHeading(SampleDropoffPos)
@@ -143,9 +143,10 @@ public class ObserverSide_Auto extends LinearOpMode {
                 // afterwards
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> armControl.setDesArmPosDeg(-20))
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> armControl.setArmPower(0))
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
+                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> armControl.setArmPower(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSpecimen())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,() -> sliderControl.setDesSliderLen(0))
                 .waitSeconds(0.3)
 
                 //--------------- Specimen 3 Operation ------------------ //
@@ -154,8 +155,8 @@ public class ObserverSide_Auto extends LinearOpMode {
                 //.waitSeconds(3.0)
                 .forward(7.5)
                 .UNSTABLE_addTemporalMarkerOffset(0.05, () -> gripper.setGripperClosed())
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerPosition(0.28))
-                .waitSeconds(0.3)
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> gripper.setAnglerPosition(0.28))
+                .waitSeconds(0.4)
                 .back(5)
                 // Step 7: Raise the Arm to prepare for Specimen  3 drop off attempt
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(72);})
@@ -164,7 +165,7 @@ public class ObserverSide_Auto extends LinearOpMode {
 
                 // Step 8: Specimen 3 drop off attempt
                 .lineToLinearHeading(SpecimenDropoffPos3)
-                .forward(6.0)
+                .forward(7)
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> {armControl.setDesArmPosDeg(45);})
                 .waitSeconds(0.2)
                 // Step 9: Move backward and open the Gripper to place and release the Specimen.
@@ -172,8 +173,9 @@ public class ObserverSide_Auto extends LinearOpMode {
                 // afterwards
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
+                .UNSTABLE_addTemporalMarkerOffset(0.0,() -> sliderControl.setDesSliderLen(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> armControl.setDesArmPosDeg(-20))
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> armControl.setArmPower(0))
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> armControl.setArmPower(0))
 
                 // Step 12: Go to ParkPos for final parking
                 .lineToLinearHeading(ParkPos)
