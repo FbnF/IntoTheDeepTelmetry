@@ -55,11 +55,11 @@ public class BucketSide_Auto extends LinearOpMode {
         drive.setPoseEstimate(startPos);
 
         Pose2d SpecimenDropoffPos = new Pose2d(32, 79, Math.toRadians(0));
-        Pose2d SampleDropoffPos1 = new Pose2d(20, 115, Math.toRadians(0));
+        Pose2d SampleDropoffPos1 = new Pose2d(20, 115, Math.toRadians(45));
         Pose2d SampleDropoffPos2 = new Pose2d(16, 124, Math.toRadians(135));
         Pose2d AssentPos = new Pose2d(64, 108, -Math.toRadians(90));
-        Pose2d SamplePickUpPos1 = new Pose2d(35, 121.6, Math.toRadians(0));
-        Pose2d SamplePickUpPos2 = new Pose2d(35, 126, Math.toRadians(0));
+        Pose2d SamplePickUpPos1 = new Pose2d(35, 122, Math.toRadians(0));
+        Pose2d SamplePickUpPos2 = new Pose2d(35, 126.5, Math.toRadians(0));
 
         // Define the trajectory sequence
         TrajectorySequence BucketTrajectory = drive.trajectorySequenceBuilder(startPos)
@@ -174,7 +174,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .waitSeconds(0.6)
 
                 .back(25)
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(14);})
+                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> {sliderControl.setDesSliderLen(12);})
 
                 // Go to the sample 1 pick up position
                 //.lineToLinearHeading(SamplePickUpPos1)
