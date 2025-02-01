@@ -335,11 +335,11 @@ public class SimpleTeleop extends LinearOpMode {
             }
 
             // angler control using gamepad2 dpad left and right (Hat)
-            // dpad_left to for the Gripper system to face forward
+            // dpad_left to set the Girpper system for specimen pick up
             if (gamepad2.dpad_left) {
                 gripper.setAnglerSpecimen();
             }
-            // dpad_right to set the Gripper system to the Side position
+            // dpad_right to set the Gripper system for the sample pick up
             if (gamepad2.dpad_right) {
                 gripper.setAnglerSample();
             }

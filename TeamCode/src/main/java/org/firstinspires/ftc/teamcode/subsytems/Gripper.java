@@ -28,10 +28,10 @@ public class Gripper {
 
     //GripperOpen: The Gripper in the open position to prepare for pick up
     // sample/specimen for gripper servo
-    private double GripperOpen=0.63; //0.42
+    private double GripperOpen=0.64; //0.42
     //GripperClose: The Gripper in the close position for pick up sample/specimen
     // for gripper servo
-    private double GripperClose=0.37;//0.25
+    private double GripperClose=0.32;//0.25
 
     //AnglerSamplePos: The initial position for the angler servo to ensure the gripper could
     //pick up the specimen
