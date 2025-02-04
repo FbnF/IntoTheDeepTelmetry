@@ -85,11 +85,10 @@ public class ObserverSide_Auto extends LinearOpMode {
                 // afterwards
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> armControl.setDesArmPosDeg(-20))
-                .waitSeconds(0.3)
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> armControl.setArmPower(0))
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> armControl.setArmPower(0))
 				.UNSTABLE_addTemporalMarkerOffset(0.3, () -> gripper.setAnglerSpecimen())
-
+                .waitSeconds(0.4)
 
                 //--------------- Sample 1 pick up and drop off Operation ------------------ //
 
@@ -125,12 +124,13 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SpecimenPickupPos)
                 //.waitSeconds(3.0)
                 .forward(2)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setGripperClosed())
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperClosed())
                 //.UNSTABLE_addTemporalMarkerOffset(0.35, () -> gripper.setAnglerSpecimen())
-                .waitSeconds(0.2)
+
                 //.back(5)
                 // Step 7: Raise the Arm to prepare for Specimen 2 drop off attempt
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(72);})
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {armControl.setDesArmPosDeg(72);})
+                .waitSeconds(0.3)
 
                 // Step 8: Specimen 2 drop off attempt
                 .lineToLinearHeading(SpecimenDropoffPos2)
@@ -143,7 +143,7 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
-                .UNSTABLE_addTemporalMarkerOffset(0.4, () -> armControl.setArmPower(0))
+                //.UNSTABLE_addTemporalMarkerOffset(0.4, () -> armControl.setArmPower(0))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,() -> sliderControl.setDesSliderLen(0))
                 .waitSeconds(0.4)
@@ -153,14 +153,14 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SpecimenPickupPos)
                 //.waitSeconds(3.0)
                 .forward(2)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setGripperClosed())
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperClosed())
                 //.UNSTABLE_addTemporalMarkerOffset(0.35, () -> gripper.setAnglerPosition(0.25))
-                .waitSeconds(0.2)
                 //.back(5)
                 // Step 7: Raise the Arm to prepare for Specimen  3 drop off attempt
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> {armControl.setDesArmPosDeg(72);})
+                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> {armControl.setDesArmPosDeg(72);})
                 //.UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 //.turn(Math.toRadians(135))
+                .waitSeconds(0.3)
 
                 // Step 8: Specimen 3 drop off attempt
                 .lineToLinearHeading(SpecimenDropoffPos3)
@@ -173,8 +173,8 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0,() -> sliderControl.setDesSliderLen(0))
-                .UNSTABLE_addTemporalMarkerOffset(0.1, () -> armControl.setDesArmPosDeg(-20))
-                .UNSTABLE_addTemporalMarkerOffset(0.3, () -> armControl.setArmPower(0))
+                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> armControl.setArmPower(0))
                 .waitSeconds(0.4)
 
                 // Step 12: Go to ParkPos for final parking
