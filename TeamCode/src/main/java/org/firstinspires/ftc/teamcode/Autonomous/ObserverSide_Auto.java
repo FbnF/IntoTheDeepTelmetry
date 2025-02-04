@@ -60,8 +60,7 @@ public class ObserverSide_Auto extends LinearOpMode {
         Pose2d SpecimenDropoffPos3 = new Pose2d(32, 62, Math.toRadians(0));
 
         Pose2d SampleDropoffPos = new Pose2d(28, 26, -Math.toRadians(135));
-        Pose2d Specimen2WaitPos = new Pose2d(18, 44, -Math.toRadians(90));
-        Pose2d SpecimenPickupPos = new Pose2d(16, 27, -Math.toRadians(135));
+        Pose2d SpecimenPickupPos = new Pose2d(19, 44, -Math.toRadians(135));
         Pose2d ParkPos = new Pose2d(10, 11, Math.toRadians(0));
 
         // Define the trajectory sequence for the Observer side
