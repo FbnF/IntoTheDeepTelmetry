@@ -67,6 +67,7 @@ public class Gripper {
         gripper = hwMap.get(Servo.class,"gripper");
         //Control Hub port 2
         gripperholder = hwMap.get(Servo.class,"gripperholder");
+        //gripperholder.setDirection(Servo.Direction.REVERSE);
         //Control Hub port 1
         angler = hwMap.get(Servo.class,"angler");
     }
