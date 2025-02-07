@@ -59,7 +59,7 @@ public class BucketSide_Auto extends LinearOpMode {
         Pose2d SampleDropoffPos2 = new Pose2d(16.2, 126, Math.toRadians(150));
         Pose2d AssentPos = new Pose2d(64, 106, -Math.toRadians(90));
         Pose2d SamplePickUpPos1 = new Pose2d(35.5, 122, Math.toRadians(0));
-        Pose2d SamplePickUpPos2 = new Pose2d(35, 119.5, Math.toRadians(0));
+        Pose2d SamplePickUpPos2 = new Pose2d(34, 117, Math.toRadians(0));
 
         // Define the trajectory sequence
         TrajectorySequence BucketTrajectory = drive.trajectorySequenceBuilder(startPos)
@@ -85,15 +85,15 @@ public class BucketSide_Auto extends LinearOpMode {
                 .back(8)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
-                .waitSeconds(0.2)
+                //.waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(1, () -> armControl.setArmPower(0))
-                .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setAnglerSpecimen())
+                .UNSTABLE_addTemporalMarkerOffset(0.7, () -> gripper.setAnglerSpecimen())
 
                 // Step 5: Move to Sample 1 and extend the slide to pick up the Sample 1
                 .lineToLinearHeading(SamplePickUpPos1)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
-                .waitSeconds(0.3)
+                .waitSeconds(0.2)
                 .back(9)
 
                 // Step 6: Set Arm to Deposit angle and extend slides for deposit
@@ -105,7 +105,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Step 7: Go to the bucket to drop off Sample 1
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> sliderControl.setSliderDeposit())
                 .UNSTABLE_addTemporalMarkerOffset(0.1, () -> gripper.setAnglerSpecimen())
-                .waitSeconds(0.2)
+                .waitSeconds(0.1)
 
                 // Go to the target position then final position: split into two section to ensure
                 // the arm and slider and gripper are all in position before turn
@@ -138,7 +138,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // Potential Sample 2 pick up code should be placed here
                 // Step 5: Move to Sample 2 and extend the slide to pick up the Sample 1
                 .lineToLinearHeading(SamplePickUpPos2)
-                .strafeLeft(12)
+                .strafeLeft(14)
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setAnglerSample())
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperClosed())
                 .waitSeconds(0.3)
