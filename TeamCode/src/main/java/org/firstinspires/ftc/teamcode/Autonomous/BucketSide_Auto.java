@@ -86,7 +86,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperOpen())
                 .UNSTABLE_addTemporalMarkerOffset(0.0, () -> armControl.setDesArmPosDeg(-20))
                 //.waitSeconds(0.2)
-                .UNSTABLE_addTemporalMarkerOffset(1, () -> armControl.setArmPower(0))
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> armControl.setArmPower(0)) //???
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> gripper.setAnglerSpecimen())
 
                 // Step 5: Move to Sample 1 and extend the slide to pick up the Sample 1
@@ -121,7 +121,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // and retract the slide
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperOpen())
                 //.UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setGripperHolderParallel())
-                .UNSTABLE_addTemporalMarkerOffset(0.65, () -> gripper.setAnglerSpecimen())
+                .UNSTABLE_addTemporalMarkerOffset(0.65, () -> gripper.setAnglerSpecimen()) //???
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> armControl.setArmDeposit())
                 .waitSeconds(0.7)
                 //.back(5)
@@ -169,7 +169,7 @@ public class BucketSide_Auto extends LinearOpMode {
                 // and retract the slide
                 .UNSTABLE_addTemporalMarkerOffset(0.2, () -> gripper.setGripperOpen())
                 //.UNSTABLE_addTemporalMarkerOffset(0.5, () -> gripper.setGripperHolderParallel())
-                .UNSTABLE_addTemporalMarkerOffset(0.65, () -> gripper.setAnglerSpecimen())
+                .UNSTABLE_addTemporalMarkerOffset(0.65, () -> gripper.setAnglerSpecimen()) //???
                 .UNSTABLE_addTemporalMarkerOffset(0.7, () -> armControl.setArmDeposit())
                 .waitSeconds(0.7)
 

@@ -35,11 +35,11 @@ public class Gripper {
 
     //AnglerSamplePos: The initial position for the angler servo to ensure the gripper could
     //pick up the specimen
-    private double AnglerSamplePos =0.78;
+    private double AnglerSamplePos =0.70;
     //AnglerSpecimenPos: The angler servo Position for the angler servo to allow regular specimen pick up
-    private double AnglerSpecimenPos =0.39;
+    private double AnglerSpecimenPos =0.34;
     // AnglerInitPos: Initial angler position to meet the dimension limitation
-    private double AnglerInitPos=0.15;
+    private double AnglerInitPos=0.07;
     //larer numbers are more clockwise
 
 

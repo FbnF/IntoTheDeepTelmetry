@@ -124,7 +124,8 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SpecimenPickupPos)
                 //.waitSeconds(3.0)
                 //.forward(2)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperClosed())
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> gripper.setGripperClosed())
+                .waitSeconds(1)
                 //.UNSTABLE_addTemporalMarkerOffset(0.35, () -> gripper.setAnglerSpecimen())
 
                 //.back(5)
@@ -153,7 +154,10 @@ public class ObserverSide_Auto extends LinearOpMode {
                 .lineToLinearHeading(SpecimenPickupPos)
                 //.waitSeconds(3.0)
                 //.forward(2)
-                .UNSTABLE_addTemporalMarkerOffset(0.0, () -> gripper.setGripperClosed())
+
+                .UNSTABLE_addTemporalMarkerOffset(1, () -> gripper.setGripperClosed())
+                .waitSeconds(1)
+
                 //.UNSTABLE_addTemporalMarkerOffset(0.35, () -> gripper.setAnglerPosition(0.25))
                 //.back(5)
                 // Step 7: Raise the Arm to prepare for Specimen  3 drop off attempt
