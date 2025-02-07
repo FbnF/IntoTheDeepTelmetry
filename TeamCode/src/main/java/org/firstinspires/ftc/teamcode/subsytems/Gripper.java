@@ -21,10 +21,10 @@ public class Gripper {
 
 
     // Gripper subsystem constants
-    // GripperHolderInit: The initial position for the gripperholder servo
-    private double GripperHolderInit=0.42;//0.33;
-    //GripperHolderRotPos: The position after rotation for the gripperholder servo
-    private double GripperHolderRotPos=0.77;//0.68;
+    // GripperHolderParallel: The initial position for the gripperholder servo
+    private double GripperHolderParallel=0.42;//0.33;
+    //GripperHolderPerpendicular: The position after rotation for the gripperholder servo
+    private double GripperHolderPerpendicular=0.77;//0.68;
 
     //GripperOpen: The Gripper in the open position to prepare for pick up
     // sample/specimen for gripper servo
@@ -101,12 +101,12 @@ public class Gripper {
 
     // Gripper Holder parallel to the holding bar
     public void setGripperHolderParallel() {
-        setGripperHolderPosition(GripperHolderInit);
+        setGripperHolderPosition(GripperHolderParallel);
     }
     // Gripper Holder perpendicular to the holding bar
     public void setGripperHolderPerpendicular() {
 
-        setGripperHolderPosition(GripperHolderRotPos);
+        setGripperHolderPosition(GripperHolderPerpendicular);
     }
 
     // Gripper system facing the side
